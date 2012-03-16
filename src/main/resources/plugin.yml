@@ -1,0 +1,10 @@
+name: ${project.name}
+description: ${project.description}
+author: AlbireoX
+version: ${release.number}
+
+main: net.celestiusmc.plasmamachinegun.PlasmaMachineGun
+
+permissions:
+  plasmamachinegun.use:
+    description: Use the plasma machine gun.

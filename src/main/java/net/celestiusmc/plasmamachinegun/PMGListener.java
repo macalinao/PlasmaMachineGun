@@ -89,7 +89,6 @@ public class PMGListener implements Listener {
         Set<LivingEntity> targets = new HashSet<LivingEntity>();
         while (bitr.hasNext()) {
             b = bitr.next();
-            System.out.println(b);
             bx = b.getX();
             by = b.getY();
             bz = b.getZ();

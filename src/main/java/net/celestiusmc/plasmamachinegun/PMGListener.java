@@ -32,12 +32,12 @@ public class PMGListener implements Listener {
         }
         
         double speed = 20.0;
+        Vector direction = player.getEyeLocation().getDirection().normalize();
         
         Fireball fb = player.launchProjectile(Fireball.class);
+        fb.teleport(player.getEyeLocation().add(direction));
         fb.setYield(0f);
         fb.setIsIncendiary(false);
-        
-        Vector direction = player.getEyeLocation().getDirection().normalize();
         
         fb.setDirection(direction);
         fb.setVelocity(direction.multiply(speed));

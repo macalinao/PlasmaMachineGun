@@ -59,9 +59,11 @@ public class PMGListener implements Listener {
 
                 int amount = nugget.getAmount();
                 if (amount == 1) {
-                    inventory.setItem(slot, null);
+                    inventory.remove(slot);
+                    break;
                 } else {
                     nugget.setAmount(amount - 1);
+                    break;
                 }
             }
             carts = 0;

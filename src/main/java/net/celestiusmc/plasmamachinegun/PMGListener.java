@@ -29,7 +29,7 @@ import org.bukkit.util.Vector;
  */
 public class PMGListener implements Listener {
     private Map<Player, Integer> cartridges = new HashMap<Player, Integer>();
-    
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -43,26 +43,34 @@ public class PMGListener implements Listener {
         if (!item.getType().equals(Material.BLAZE_ROD)) {
             return;
         }
-        
+
         int carts = cartridges.get(player);
-        
+
         PlayerInventory inventory = player.getInventory();
-        
+
         HashMap<Integer, ? extends ItemStack> nuggets = inventory.all(Material.GOLD_NUGGET);
         if (nuggets.size() < 1) {
             return;
         }
-        
-        for (Entry<Integer, ? extends ItemStack> nuggetSlot : nuggets.entrySet()) {
-            int slot = nuggetSlot.getKey();
-            ItemStack nugget = nuggetSlot.getValue();
-            
-            int amount = nugget.getAmount();
-            if (amount == 1) {
-                inventory.setItem(slot, null);
-            } else {
-                nugget.setAmount(amount - 1);
+
+        carts++;
+
+        cartridges.put(player, carts);
+
+
+        if (carts % 10 == 0) {
+            for (Entry<Integer, ? extends ItemStack> nuggetSlot : nuggets.entrySet()) {
+                int slot = nuggetSlot.getKey();
+                ItemStack nugget = nuggetSlot.getValue();
+
+                int amount = nugget.getAmount();
+                if (amount == 1) {
+                    inventory.setItem(slot, null);
+                } else {
+                    nugget.setAmount(amount - 1);
+                }
             }
+            carts = 0;
         }
 
         double speed = 20.0;
@@ -114,18 +122,10 @@ public class PMGListener implements Listener {
                 }
             }
         }
-        
+
         for (LivingEntity target : targets) {
             target.damage(1);
         }
-        
-        carts++;
-        
-        if (carts % 10 == 0) {
-            carts = 0;
-        }
-        
-        cartridges.put(player, carts);
     }
 
     private boolean isTransparent(Material mat) {

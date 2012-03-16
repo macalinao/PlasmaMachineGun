@@ -4,18 +4,12 @@
  */
 package net.celestiusmc.plasmamachinegun;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Fireball;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -58,10 +52,6 @@ public class PMGListener implements Listener {
         }
 
         carts++;
-
-        cartridges.put(player, carts);
-
-
         if (carts % 10 == 0) {
             for (Entry<Integer, ? extends ItemStack> nuggetSlot : nuggets.entrySet()) {
                 int slot = nuggetSlot.getKey();
@@ -76,6 +66,7 @@ public class PMGListener implements Listener {
             }
             carts = 0;
         }
+        cartridges.put(player, carts);
 
         double speed = 20.0;
         Location location = player.getEyeLocation();
@@ -89,21 +80,14 @@ public class PMGListener implements Listener {
         fb.setDirection(direction);
         fb.setVelocity(direction.multiply(speed));
 
-        //Get potential targets
-        Set<LivingEntity> entities = new HashSet<LivingEntity>();
-        for (Entity e : player.getNearbyEntities(100.0, 100.0, 100.0)) {
-            if (e instanceof LivingEntity) {
-                entities.add((LivingEntity) e);
-            }
-        }
-
         //Now get the target
-        BlockIterator bitr = new BlockIterator(location, 0.0, 100);
+        BlockIterator bitr = new BlockIterator(location, 0.0, 50);
         Block b;
         int bx, by, bz;
         Set<LivingEntity> targets = new HashSet<LivingEntity>();
         while (bitr.hasNext()) {
             b = bitr.next();
+            System.out.println(b);
             bx = b.getX();
             by = b.getY();
             bz = b.getZ();
@@ -111,6 +95,17 @@ public class PMGListener implements Listener {
             if (!isTransparent(b.getType())) {
                 break;
             }
+
+            //Get potential targets
+            Set<LivingEntity> entities = new HashSet<LivingEntity>();
+            Entity temp = b.getLocation().getWorld().spawn(b.getLocation(), ExperienceOrb.class);
+            List<Entity> nearbyEntities = temp.getNearbyEntities(0.4, 0.4, 0.4);
+            for (Entity n : nearbyEntities) {
+                if (n instanceof LivingEntity) {
+                    entities.add((LivingEntity) n);
+                }
+            }
+            temp.remove();
 
             for (LivingEntity e : entities) {
                 Location l = e.getLocation();

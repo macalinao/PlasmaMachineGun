@@ -7,6 +7,7 @@ package net.celestiusmc.plasmamachinegun;
 import org.bukkit.Material;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +17,7 @@ import org.bukkit.util.Vector;
  * Plasma Machine Gun Listener.
  */
 public class PMGListener implements Listener {
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         
@@ -35,7 +37,7 @@ public class PMGListener implements Listener {
         fb.setYield(0f);
         fb.setIsIncendiary(false);
         
-        Vector direction = player.getLocation().getDirection().normalize();
+        Vector direction = player.getEyeLocation().getDirection().normalize();
         
         fb.setDirection(direction);
         fb.setVelocity(direction.multiply(speed));

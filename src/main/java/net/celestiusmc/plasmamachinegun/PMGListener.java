@@ -34,6 +34,10 @@ public class PMGListener implements Listener {
 
         ItemStack item = event.getItem();
 
+        if (item == null) {
+            return;
+        }
+
         if (!item.getType().equals(Material.BLAZE_ROD)) {
             return;
         }
@@ -52,7 +56,7 @@ public class PMGListener implements Listener {
         }
 
         carts++;
-        if (carts % 10 == 0) {
+        if (carts >= 10) {
             for (Entry<Integer, ? extends ItemStack> nuggetSlot : nuggets.entrySet()) {
                 int slot = nuggetSlot.getKey();
                 ItemStack nugget = nuggetSlot.getValue();
@@ -60,11 +64,10 @@ public class PMGListener implements Listener {
                 int amount = nugget.getAmount();
                 if (amount == 1) {
                     inventory.remove(slot);
-                    break;
                 } else {
                     nugget.setAmount(amount - 1);
-                    break;
                 }
+                break;
             }
             carts = 0;
         }

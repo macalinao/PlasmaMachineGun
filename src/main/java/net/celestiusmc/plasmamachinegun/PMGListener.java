@@ -44,7 +44,11 @@ public class PMGListener implements Listener {
             return;
         }
 
-        int carts = cartridges.get(player);
+        Integer carts = cartridges.get(player);
+        if (carts == null) {
+            carts = 0;
+            cartridges.put(player, carts);
+        }
 
         PlayerInventory inventory = player.getInventory();
 

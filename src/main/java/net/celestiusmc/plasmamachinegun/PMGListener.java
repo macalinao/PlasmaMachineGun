@@ -62,7 +62,7 @@ public class PMGListener implements Listener {
                 ItemStack nugget = nuggetSlot.getValue();
 
                 int amount = nugget.getAmount();
-                if (amount == 1) {
+                if (amount <= 1) {
                     inventory.remove(slot);
                 } else {
                     nugget.setAmount(amount - 1);

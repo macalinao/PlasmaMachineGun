@@ -78,7 +78,7 @@ public class PMGListener implements Listener {
         Vector direction = location.getDirection().normalize();
 
         Fireball fb = player.launchProjectile(Fireball.class);
-        fb.teleport(location.add(direction));
+        fb.teleport(location.add(direction.multiply(3.0f)));
         fb.setYield(0f);
         fb.setIsIncendiary(false);
 

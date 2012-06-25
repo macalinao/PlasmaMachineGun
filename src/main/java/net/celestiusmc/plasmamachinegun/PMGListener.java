@@ -73,7 +73,7 @@ public class PMGListener implements Listener {
         }
         cartridges.put(player, carts);
 
-        double speed = 20.0;
+        double speed = 5.0;
         Location location = player.getEyeLocation();
         Vector direction = location.getDirection().normalize();
 
